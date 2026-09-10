@@ -1,0 +1,23 @@
+[
+  {
+    "question": "Get the profile at 14.375 N, 88.125 E on 2023-05-02. State the surface and 100 m temperatures.",
+    "status": 502,
+    "response": {
+      "error": "Gemini provider returned HTTP 404. Check the server model/key configuration or retry."
+    }
+  },
+  {
+    "question": "Get Arabian Sea metrics against GLORYS and independent ARGO at 100 m.",
+    "status": 502,
+    "response": {
+      "error": "Gemini provider returned HTTP 404. Check the server model/key configuration or retry."
+    }
+  },
+  {
+    "question": "Get the inversion cases. Compare actual model and GLORYS values at 20 m and explain missing ARGO.",
+    "status": 502,
+    "response": {
+      "error": "Gemini provider returned HTTP 404. Check the server model/key configuration or retry."
+    }
+  }
+]

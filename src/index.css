@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/* ---- OceanEmbed design tokens (from the Stitch tailwind.config) ---- */
+@theme {
+    --color-ocean-navy: #003366;
+    --color-ocean-dark: #001D33;
+    --color-ocean-deep: #001C33;
+    --color-ocean-mid: #002B54;
+    --color-ocean-blue: #005A9C;
+    --color-ocean-accent: #FF9933;
+    --color-ocean-light: #EBF3FA;
+    --color-ocean-bg: #F8FAFC;
+    --color-ocean-border: #CBD5E1;
+}
+
+/* ---- Mandatory Arial typography override (from Stitch export) ---- */
+*,
+*::before,
+*::after,
+html,
+body,
+button,
+input,
+select,
+textarea,
+div,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+table,
+tr,
+th,
+td,
+text,
+svg text {
+    font-family: 'Arial', 'Liberation Sans', 'Helvetica', sans-serif !important;
+}
+
+/* ---- Ticker + tab + scrollbar styling (from Stitch export) ---- */
+.ticker-content {
+    display: inline-block;
+    white-space: nowrap;
+    animation: ticker-slide 32s linear infinite;
+}
+
+.ticker-content:hover {
+    animation-play-state: paused;
+}
+
+@keyframes ticker-slide {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.tab-active {
+    border-bottom: 3px solid #FF9933 !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #94A3B8;
+    border-radius: 3px;
+}
+
+/* Leaflet's default marker icon path fix isn't needed here since we only use
+   CircleMarker (vector) — no raster marker images required. */
+/* Hide Google Translate top banner */
+body {
+    top: 0 !important;
+}
+.skiptranslate iframe,
+.goog-te-banner-frame {
+    display: none !important;
+    visibility: hidden !important;
+}
+.goog-tooltip {
+    display: none !important;
+}
+.goog-tooltip:hover {
+    display: none !important;
+}
+.goog-text-highlight {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}

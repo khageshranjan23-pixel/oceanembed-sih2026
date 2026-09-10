@@ -1,0 +1,269 @@
+{
+  "profiles": 676740,
+  "dates": [
+    "2023-05-02",
+    "2023-06-30"
+  ],
+  "same_grid_each_date": true,
+  "locations": 11279,
+  "missing_per_depth": [
+    0,
+    0,
+    16440,
+    31680,
+    49320,
+    75240,
+    106680,
+    113040,
+    118860,
+    122640,
+    125640,
+    133680,
+    144420,
+    148680,
+    159600
+  ],
+  "cube_variables": [
+    "sst",
+    "sss",
+    "ssh",
+    "u_geostrophic",
+    "v_geostrophic",
+    "u_ageostrophic",
+    "v_ageostrophic",
+    "u_wind",
+    "v_wind",
+    "glorys_temperature",
+    "argo_temperature",
+    "climatology",
+    "temperature_anomaly"
+  ],
+  "cube_attributes": {
+    "regrid_method": "conservative"
+  },
+  "argo_depths": [
+    5.0,
+    10.0,
+    20.0,
+    30.0,
+    50.0,
+    75.0,
+    100.0,
+    125.0,
+    150.0,
+    200.0,
+    250.0,
+    300.0,
+    400.0,
+    500.0,
+    600.0,
+    700.0,
+    800.0,
+    900.0,
+    1000.0,
+    1200.0,
+    1400.0,
+    1600.0,
+    1800.0,
+    2000.0
+  ],
+  "case_source_checks": [
+    {
+      "date": "2023-05-21",
+      "depth": 0.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 5.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 10.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 20.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 30.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 50.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 75.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 100.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 125.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 150.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 200.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 300.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 500.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 700.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-05-21",
+      "depth": 1000.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 0.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 5.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 10.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 20.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 30.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 50.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 75.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 100.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 125.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 150.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 200.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 300.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 500.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 700.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    },
+    {
+      "date": "2023-06-28",
+      "depth": 1000.0,
+      "glorys_matches_cube": true,
+      "argo_cube_finite": false
+    }
+  ],
+  "climatology_fit_checks": [
+    {
+      "lat": 14.375,
+      "lon": 88.125,
+      "max_full_series_harmonic_difference": 1.0712258458056567e-07
+    },
+    {
+      "lat": 15.125,
+      "lon": 68.125,
+      "max_full_series_harmonic_difference": 3.608431953239233e-08
+    }
+  ],
+  "sha256": {
+    "regime_metrics.csv": "1d53afb0a4e31c8c087e04d9cd75fe25737af987b384dde283c4cef60893254f",
+    "inversion_case_studies.csv": "02c27af1427cd71536e366dbc5d5351f62d1620b365348d509a44d0487e91c36",
+    "OceanEmbed_Training.ipynb": "668ddeb0bf5040ba942c6753c9961218e8d8ca925dd333baf9d1212ae285092e"
+  }
+}

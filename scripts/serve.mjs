@@ -1,0 +1,7 @@
+import http from 'node:http';
+import {readFile} from 'node:fs/promises';
+import {resolve,extname,relative,isAbsolute} from 'node:path';
+import {api} from '../server/api.js';
+const root=resolve('dist/client');const port=Number(process.env.PORT||4173);
+http.createServer(async(req,res)=>{try{const url=new URL(req.url,`http://${req.headers.host}`);if(url.pathname.startsWith('/api/')||url.pathname==='/health'){const chunks=[];for await(const c of req){chunks.push(c);if(chunks.reduce((s,x)=>s+x.length,0)>6000){res.writeHead(413).end();return;}}const r=await api(new Request(url,{method:req.method,headers:req.headers,...(req.method!=='GET'&&req.method!=='HEAD'?{body:Buffer.concat(chunks)}:{})}),process.env);res.writeHead(r.status,Object.fromEntries(r.headers));res.end(Buffer.from(await r.arrayBuffer()));return;}
+let path=resolve(root,'.'+decodeURIComponent(url.pathname));const rel=relative(root,path);if(rel.startsWith('..')||isAbsolute(rel)){res.writeHead(403).end();return;}if(!extname(path)||path===root)path=resolve(root,'index.html');const data=await readFile(path);res.writeHead(200,{'content-type':({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.json':'application/json'})[extname(path)]||'application/octet-stream'});res.end(data);}catch{res.writeHead(404).end('Not found');}}).listen(port,'0.0.0.0',()=>console.log(`OceanEmbed http://localhost:${port}`));
