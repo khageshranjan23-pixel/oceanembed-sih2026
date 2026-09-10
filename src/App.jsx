@@ -5,7 +5,19 @@ const DEPTHS=[0,5,10,20,30,50,75,100,125,150,200,300,500,700,1000];
 const TABS=[['dashboard','Home / Map'],['profile','Depth Profile'],['inversion','Model vs Reality'],['metrics','Metrics'],['methodology','Methodology'],['ai','AI Desk']];
 const names={arabian_sea:'Arabian Sea',bay_of_bengal:'Bay of Bengal / eastern partition',glorys:'GLORYS reanalysis',independent_argo:'Independent ARGO'};
 const fmt=(x,n=3)=>typeof x==='number'&&Number.isFinite(x)?x.toFixed(n):'—';
-async function request(path,options={}){let r;try{r=await fetch(path,{...options,signal:options.signal||AbortSignal.timeout(path==='/api/ai'?100000:55000)});}catch(e){if(e.name==='AbortError')throw e;throw Error('The service could not be reached in time. Please retry.',{cause:e});}let d;try{d=await r.json();}catch{throw Error('The service returned an unreadable response. Please retry.');}if(!r.ok)throw Error(d.error||`Request failed (${r.status}). Please retry.`);return d;}
+// Static mode: served from GitHub Pages (no backend); dynamic mode: local/Render server
+const RENDER_BASE=import.meta.env.VITE_RENDER_API_BASE||'';
+const STATIC_MODE=import.meta.env.VITE_STATIC_MODE==='true';
+function apiUrl(path){
+  if(STATIC_MODE){
+    if(path==='/api/coverage')return'/data/coverage.json';
+    if(path.startsWith('/api/regime-metrics'))return'/data/metrics.json';
+    if(path.startsWith('/api/inversion-case'))return'/data/cases.json';
+    if(path.startsWith('/api/profile'))return`${RENDER_BASE}/api/profile${path.includes('?')?path.slice(path.indexOf('?')):''}`;
+  }
+  return path;
+}
+async function request(path,options={}){const url=apiUrl(path);let r;try{r=await fetch(url,{...options,signal:options.signal||AbortSignal.timeout(path==='/api/ai'?100000:55000)});}catch(e){if(e.name==='AbortError')throw e;throw Error('The service could not be reached in time. Please retry.',{cause:e});}let d;try{d=await r.json();}catch{throw Error('The service returned an unreadable response. Please retry.');}if(!r.ok)throw Error(d.error||`Request failed (${r.status}). Please retry.`);return d;}
 function useData(path){const [state,set]=useState({loading:true,data:null,error:null});const[attempt,retry]=useState(0);useEffect(()=>{const c=new AbortController();request(path,{signal:c.signal}).then(data=>set({loading:false,data,error:null})).catch(e=>{if(e.name!=='AbortError')set({loading:false,data:null,error:e.message});});return()=>c.abort();},[path,attempt]);return {...state,retry:()=>{set(s=>({...s,loading:true,error:null}));retry(x=>x+1);}};}
 function Panel({title,children,className=''}){return <section className={`panel ${className}`}><h2 className="panel-title">{title}</h2><div className="panel-body">{children}</div></section>;}
 function State({loading,error,retry}){return loading?<p role="status" className="notice">Loading real data… The profile service may need time to wake up.</p>:error?<div role="alert" className="notice error">{error} <button onClick={retry}>Retry</button></div>:null;}
