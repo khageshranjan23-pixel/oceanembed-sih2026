@@ -48,7 +48,10 @@ export async function askGemini(body,env){
  catch(e){selected={date:coverage.dates[0],lat:14.375,lon:88.125,note:'Default context: no matching point for provided coordinates.'};}
  const contents=[{role:'user',parts:[{text:`Selected profile context: ${JSON.stringify(selected)}. Available dates: 2023-05-02 to 2023-06-30. User question: ${body.message}`}]}];
  const trace=[];const deadline=Date.now()+90000;let calls=0;
- const modelName = env.GEMINI_MODEL || 'gemini-3.6-flash';
+ let modelName = env.GEMINI_MODEL || 'gemini-3.6-flash';
+ if (['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash', 'gemini-2.5-flash'].includes(modelName)) {
+  modelName = 'gemini-3.6-flash';
+ }
  for(let turn=0;turn<4;turn++){
   const remaining=deadline-Date.now();if(remaining<1000)throw new ApiError(504,'Gemini request exceeded the time limit. Retry with a shorter question.');
   let r;try{
