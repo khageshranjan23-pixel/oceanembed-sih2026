@@ -9,7 +9,7 @@ services:
       - key: GEMINI_API_KEY
         sync: false
       - key: GEMINI_MODEL
-        value: gemini-1.5-flash
+        value: gemini-3.6-flash
       - key: UPSTREAM_API_BASE
         value: https://oceanembed-api-4m85.onrender.com
       - key: PORT

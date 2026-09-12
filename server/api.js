@@ -48,14 +48,38 @@ export async function askGemini(body,env){
  catch(e){selected={date:coverage.dates[0],lat:14.375,lon:88.125,note:'Default context: no matching point for provided coordinates.'};}
  const contents=[{role:'user',parts:[{text:`Selected profile context: ${JSON.stringify(selected)}. Available dates: 2023-05-02 to 2023-06-30. User question: ${body.message}`}]}];
  const trace=[];const deadline=Date.now()+90000;let calls=0;
+ const modelName = env.GEMINI_MODEL || 'gemini-3.6-flash';
  for(let turn=0;turn<4;turn++){
   const remaining=deadline-Date.now();if(remaining<1000)throw new ApiError(504,'Gemini request exceeded the time limit. Retry with a shorter question.');
-  let r;try{const fetchBody=JSON.stringify({systemInstruction:{parts:[{text:SYSTEM}]},contents,tools:[{functionDeclarations:declarations}],toolConfig:{functionCallingConfig:{mode:turn===0?'ANY':'AUTO'}},generationConfig:{temperature:0.15,maxOutputTokens:1800}});r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${env.GEMINI_MODEL||'gemini-1.5-flash'}:generateContent`,{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':env.GEMINI_API_KEY},signal:AbortSignal.timeout(Math.min(remaining,35000)),body:fetchBody});}catch{throw new ApiError(504,'Gemini could not be reached before the timeout. Please retry.');}
-  if(!r.ok)throw new ApiError(r.status===429?429:502,`Gemini provider returned HTTP ${r.status}. ${r.status===429?'Quota or rate limit reached.':'Check the server model/key configuration or retry.'}`);
+  let r;try{
+   const fetchBody=JSON.stringify({
+    systemInstruction:{parts:[{text:SYSTEM}]},
+    contents,
+    tools:[{functionDeclarations:declarations}],
+    toolConfig:{functionCallingConfig:{mode:turn===0?'ANY':'AUTO'}},
+    generationConfig:{temperature:0.15,maxOutputTokens:1800}
+   });
+   r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`,{
+    method:'POST',
+    headers:{'content-type':'application/json','x-goog-api-key':env.GEMINI_API_KEY},
+    signal:AbortSignal.timeout(Math.min(remaining,35000)),
+    body:fetchBody
+   });
+  }catch{throw new ApiError(504,'Gemini could not be reached before the timeout. Please retry.');}
+  if(!r.ok){
+   const errTxt = await r.text().catch(() => '');
+   console.error(`Gemini API Error (${r.status}):`, errTxt);
+   throw new ApiError(r.status===429?429:502,`Gemini provider returned HTTP ${r.status}. ${r.status===429?'Quota or rate limit reached.':'Check the server model/key configuration or retry.'}`);
+  }
   const response=await r.json(),content=response.candidates?.[0]?.content;
   if(!content?.parts)throw new ApiError(502,'Gemini returned no usable answer. Retry with a different question.');
   const functions=content.parts.filter(x=>x.functionCall);
-  if(!functions.length){const answer=content.parts.filter(x=>x.text&&!x.thought).map(x=>x.text).join('\n');if(!answer||!trace.length)throw new ApiError(502,'Gemini did not return a data-grounded answer. Please retry.');return {answer,tools:trace,model:env.GEMINI_MODEL||'gemini-1.5-flash'};}
+  if(!functions.length){
+   const textParts = content.parts.filter(x => x.text && !x.thought).map(x => x.text);
+   const answer = textParts.length > 0 ? textParts.join('\n') : content.parts.filter(x => x.text).map(x => x.text).join('\n');
+   if(!answer)throw new ApiError(502,'Gemini did not return a data-grounded answer. Please retry.');
+   return {answer,tools:trace,model:modelName};
+  }
   contents.push(content);const parts=[];
   for(const part of functions){if(++calls>6)throw new ApiError(502,'Gemini exceeded the six-tool limit. Try a narrower question.');const f=part.functionCall;let result;
    try{if(f.name==='get_profile')result=await getProfile(f.args||{},env);else if(f.name==='get_regime_metrics')result={rows:getMetrics(f.args),limitations:LIMITATIONS};else if(f.name==='get_inversion_case')result={rows:getCases(),limitations:LIMITATIONS,note:'15 depth rows per case; raw_argo_temp null where ARGO coverage absent'};else throw new ApiError(422,'Unknown data tool.');trace.push({name:f.name,args:f.args||{},status:'ok'});}catch(e){result={error:e instanceof ApiError?e.message:'Data retrieval failed.'};trace.push({name:f.name,status:'error'});}

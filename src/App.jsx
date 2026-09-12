@@ -352,7 +352,7 @@ export default function App() {
         </div>
       </header>
       <div className="masthead">
-        <div className="brand-mark" aria-hidden="true">≈</div>
+        <img src="/logo.png" alt="VarunNetra OceanEmbed Logo" className="brand-logo" />
         <div>
           <h1>OceanEmbed <span className="badge">PROTOTYPE · SIH 2026</span></h1>
           <p>Satellite-to-Subsurface 3D Ocean Temperature Reconstruction Framework</p>
